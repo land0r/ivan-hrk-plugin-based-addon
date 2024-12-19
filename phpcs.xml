@@ -15,11 +15,12 @@
 	<rule ref="WPForms">
 		<exclude name="WPForms.Formatting.EmptyLineAfterFunctionDeclaration" />
 		<exclude name="WPForms.Comments.PHPDocHooks.RequiredHookDocumentation" />
+		<exclude name="WPForms.Formatting.EmptyLineBeforeReturn.AddEmptyLineBeforeReturnStatement" />
 	</rule>
 
 	<rule ref="WPForms.PHP.ValidateDomain">
 		<properties>
-			<property name="api-based" value="includes"/>
+			<property name="ivan-api-based-addon" value="includes"/>
 		</properties>
 	</rule>
 </ruleset>

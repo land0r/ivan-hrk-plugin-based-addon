@@ -12,7 +12,9 @@ namespace Ivan_Api_Based;
 
 use Exception;
 use Auryn\Injector;
+use Ivan_Api_Based\Admin\Admin_Page;
 use Ivan_Api_Based\Gutenberg\Table_Block;
+use Ivan_Api_Based\Services\Data_Store;
 
 /**
  * Class Plugin.
@@ -57,6 +59,22 @@ class Plugin {
 	 * @throws Exception Object doesn't exist.
 	 */
 	public function run(): void {
+		$this->injector->share( Data_Store::class );
+
 		$this->injector->make( Table_Block::class )->hooks();
+
+		$this->injector
+			/**
+			 * Define dependency for Admin_Page.
+			 *
+			 * @since 1.0.0
+			 */
+			->define(
+				Admin_Page::class,
+				[
+					':data_store' => $this->injector->make( Data_Store::class ),
+				]
+			)
+			->make( Admin_Page::class )->hooks();
 	}
 }
