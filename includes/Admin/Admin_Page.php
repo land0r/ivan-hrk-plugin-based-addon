@@ -81,7 +81,7 @@ class Admin_Page {
 	 */
 	public function render_page(): void {
 		$data_storage     = $this->data_store->get_data();
-		$cache_expiration = $this->get_cache_expiration_human_readable();
+		$cache_expiration = $this->get_cache_remaining_time();
 		$cache_cleared    = filter_input( INPUT_GET, 'cache_cleared', FILTER_VALIDATE_BOOLEAN );
 		?>
 		<div id="api-based-header">
@@ -116,8 +116,8 @@ class Admin_Page {
 								<?php if ( $cache_expiration ) : ?>
 									<small>
 										<?php
-										// Translators: Cache expires on: %s.
-										printf( esc_html__( 'Cache expires on: %s', 'ivan-api-based-addon' ), esc_html( $cache_expiration ) );
+										// Translators: Cache will be updated in: %s.
+										printf( esc_html__( 'Cache will be updated in: %s', 'ivan-api-based-addon' ), esc_html( $cache_expiration ) );
 										?>
 									</small>
 								<?php else : ?>
@@ -197,18 +197,31 @@ class Admin_Page {
 	}
 
 	/**
-	 * Retrieves the cache expiration in a human-readable format.
+	 * Calculates the remaining cache time in a human-readable format.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string|null Human-readable expiration date or null if no cache exists.
+	 * @return string|null Remaining time or null if the cache is empty/expired.
 	 */
-	private function get_cache_expiration_human_readable(): ?string {
+	private function get_cache_remaining_time() {
 		$cache_key       = $this->data_store->get_cache_key();
 		$expiration_time = get_option( '_transient_timeout_' . $cache_key );
 
 		if ( $expiration_time && $expiration_time > time() ) {
-			return gmdate( 'Y-m-d H:i:s', $expiration_time );
+			$remaining_seconds = $expiration_time - time();
+
+			// Calculate hours and minutes.
+			$hours   = floor( $remaining_seconds / 3600 );
+			$minutes = floor( ( $remaining_seconds % 3600 ) / 60 );
+
+			// Generate human-readable remaining time.
+			if ( $hours > 0 ) {
+				return sprintf( _n( '%d hour', '%d hours', $hours, 'ivan-api-based-addon' ), $hours ) . ( $minutes > 0 ? sprintf( _n( ', %d minute', ', %d minutes', $minutes, 'ivan-api-based-addon' ), $minutes ) : '' );
+			} elseif ( $minutes > 0 ) {
+				return sprintf( _n( '%d minute', '%d minutes', $minutes, 'ivan-api-based-addon' ), $minutes );
+			} else {
+				return __( 'Less than a minute', 'ivan-api-based-addon' );
+			}
 		}
 
 		return null;
