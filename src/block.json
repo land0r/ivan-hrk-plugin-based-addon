@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ivan-hrk/api-based-addon",
+	"version": "1.0.0",
+	"title": "Ivan Hrk Api Table",
+	"category": "widgets",
+	"icon": "smiley",
+	"description": "A WordPress plugin for retrieving and displaying data from a remote API with a custom Gutenberg block, admin panel, and WP CLI command.",
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "ivan-hrk-api-based-addon",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}
