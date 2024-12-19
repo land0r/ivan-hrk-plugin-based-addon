@@ -14,6 +14,7 @@ use Exception;
 use Auryn\Injector;
 use Ivan_Api_Based\Admin\Admin_Page;
 use Ivan_Api_Based\Ajax\Fetch_Data;
+use Ivan_Api_Based\CLI\Refresh_Cache_Command;
 use Ivan_Api_Based\Gutenberg\Table_Block;
 use Ivan_Api_Based\Services\Data_Store;
 
@@ -91,5 +92,21 @@ class Plugin {
 				]
 			)
 			->make( Fetch_Data::class )->hooks();
+
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			$this->injector
+				/**
+				 * Define dependency for Refresh_Cache_Command.
+				 *
+				 * @since 1.0.0
+				 */
+				->define(
+					Refresh_Cache_Command::class,
+					[
+						':data_store' => $this->injector->make( Data_Store::class ),
+					]
+				)
+				->make( Refresh_Cache_Command::class )->hooks();
+		}
 	}
 }
