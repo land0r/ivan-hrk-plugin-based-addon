@@ -6,6 +6,22 @@
 
 A WordPress plugin that retrieves data from a remote API and displays it via a Gutenberg block and an admin page. The plugin includes a custom AJAX endpoint and a WP CLI command for enhanced functionality.
 
+
+## References
+
+The following resources were used in the development of this plugin:
+
+1. **Gutenberg Block Development:**
+	- [Getting Started with the Block Editor](https://developer.wordpress.org/block-editor/getting-started/tutorial/)
+2. **Styling Reference:**
+	- [WP Mail SMTP Admin Styles](https://github.com/awesomemotive/WP-Mail-SMTP/blob/master/assets/css/smtp-admin.scss)
+3. **WPForms WordPress Coding Standards (WPCS):**
+	- [wpforms-phpcs](https://github.com/awesomemotive/wpforms-phpcs)
+4. **Dependency Injection Approach:**
+	- [DIC Guide](https://github.com/rdlowrey/auryn)
+5. **Hook-Based Plugin Structure:**
+   - [WordPress Plugin Constructors Shouldn’t Define Hooks](https://tommcfarlin.com/wordpress-plugin-constructors-hooks/)
+
 ## Features
 
 - Fetches data from a remote API endpoint: `https://miusage.com/v1/challenge/1/`.

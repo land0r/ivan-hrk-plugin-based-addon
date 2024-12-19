@@ -35,6 +35,13 @@ define( 'IVAN_API_BASED_PATH', plugin_dir_path( __FILE__ ) );
 define( 'IVAN_API_BASED_URL', plugin_dir_url( __FILE__ ) );
 
 /**
+ * Plugin version.
+ *
+ * @since 1.0.0
+ */
+define( 'IVAN_API_BASED_VERSION', '1.0.0' );
+
+/**
  * Run plugin function.
  *
  * @since 1.0.0
