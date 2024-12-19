@@ -45,7 +45,7 @@ class Table_Block {
 
 		// Handle for the view script.
 		wp_localize_script(
-			'ivan-hrk-api-based-addon-view-script',
+			'ivan-hrk-api-based-addon-view-script-2',
 			'IvanApiBasedAddon',
 			[
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
