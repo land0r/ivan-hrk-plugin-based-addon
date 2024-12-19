@@ -12,6 +12,8 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps } from '@wordpress/block-editor';
+import { useEffect, useState } from '@wordpress/element';
+import { ProgressBar } from '@wordpress/components';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -21,18 +23,77 @@ import { useBlockProps } from '@wordpress/block-editor';
  */
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
 export default function Edit() {
+	const blockProps = useBlockProps();
+
+	// State for data, loading, and error handling
+	const [ response, setResponse ] = useState( [] );
+	const [ loading, setLoading ] = useState( true );
+	const [ error, setError ] = useState( null );
+
+	useEffect( () => {
+		// Fetch data from the AJAX handler
+		const fetchData = async () => {
+			try {
+				setLoading( true );
+
+				const ajaxResponse = await wp.ajax.post(
+					'ivan_api_based_fetch_data',
+					{
+						// eslint-disable-next-line no-undef
+						nonce: IvanApiBasedAddon.nonce,
+					}
+				);
+
+				setResponse( ajaxResponse );
+				setLoading( false );
+			} catch ( err ) {
+				setError(
+					__( 'Failed to fetch data.', 'ivan-hrk-api-based-addon' )
+				);
+				setLoading( false );
+			}
+		};
+
+		fetchData();
+	}, [] ); // Empty dependency array to fetch data only once on load
+
+	// Render loading, error, or data table
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'Hello world!', 'ivan-hrk-api-based-addon' ) }
-		</p>
+		<div { ...blockProps }>
+			{ loading && (
+				<>
+					<ProgressBar />
+					<p>{ __( 'Loading…', 'ivan-hrk-api-based-addon' ) }</p>
+				</>
+			) }
+
+			{ error && <p className="error">{ error }</p> }
+
+			{ ! loading && ! error && (
+				<table className="api-data-table">
+					<thead>
+						<tr>
+							{ response.data?.headers?.map(
+								( header, index ) => (
+									<th key={ index }>{ header }</th>
+								)
+							) }
+						</tr>
+					</thead>
+					<tbody>
+						{ response.data?.rows?.map( ( row, rowIndex ) => (
+							<tr key={ rowIndex }>
+								{ Object.values( row ).map(
+									( cell, cellIndex ) => (
+										<td key={ cellIndex }>{ cell }</td>
+									)
+								) }
+							</tr>
+						) ) }
+					</tbody>
+				</table>
+			) }
+		</div>
 	);
 }

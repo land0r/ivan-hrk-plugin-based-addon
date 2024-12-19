@@ -13,6 +13,7 @@ namespace Ivan_Api_Based;
 use Exception;
 use Auryn\Injector;
 use Ivan_Api_Based\Admin\Admin_Page;
+use Ivan_Api_Based\Ajax\Fetch_Data;
 use Ivan_Api_Based\Gutenberg\Table_Block;
 use Ivan_Api_Based\Services\Data_Store;
 
@@ -76,5 +77,19 @@ class Plugin {
 				]
 			)
 			->make( Admin_Page::class )->hooks();
+
+		$this->injector
+			/**
+			 * Define dependency for Fetch_Data.
+			 *
+			 * @since 1.0.0
+			 */
+			->define(
+				Fetch_Data::class,
+				[
+					':data_store' => $this->injector->make( Data_Store::class ),
+				]
+			)
+			->make( Fetch_Data::class )->hooks();
 	}
 }

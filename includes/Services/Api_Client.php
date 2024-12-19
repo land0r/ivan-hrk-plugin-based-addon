@@ -52,6 +52,33 @@ class Api_Client {
 			return [];
 		}
 
+		return $this->format_data( $data );
+	}
+
+	/**
+	 * Format the API response data.
+	 *
+	 * Processes the raw data to remove numeric keys and format dates.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $data The raw API response data.
+	 *
+	 * @return array The formatted data.
+	 */
+	private function format_data( array $data ): array {
+		if ( isset( $data['data']['rows'] ) && is_array( $data['data']['rows'] ) ) {
+			// Convert rows from associative array with numeric keys to a simple indexed array.
+			$data['data']['rows'] = array_values( $data['data']['rows'] );
+
+			// Format the 'date' field to a human-readable format.
+			foreach ( $data['data']['rows'] as &$row ) {
+				if ( isset( $row['date'] ) ) {
+					$row['date'] = gmdate( 'Y-m-d H:i:s', $row['date'] );
+				}
+			}
+		}
+
 		return $data;
 	}
 }
