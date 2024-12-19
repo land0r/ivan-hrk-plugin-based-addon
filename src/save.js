@@ -11,10 +11,24 @@ import { useBlockProps } from '@wordpress/block-editor';
  * be combined into the final markup, which is then serialized by the block
  * editor into `post_content`.
  *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
+ * @param {Object} props            The block's props.
+ * @param {Object} props.attributes The block's attributes.
  *
- * @return {Element} Element to render.
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
  */
-export default function save() {
-	return <p { ...useBlockProps.save() }>{ 'Hello world!' }</p>;
+export default function save( { attributes } ) {
+	const { columnsVisibility } = attributes;
+
+	// Prepare visible columns as a comma-separated string
+	const visibleColumns = columnsVisibility
+		?.filter( ( column ) => column.visible )
+		.map( ( column ) => column.id )
+		.join( ',' );
+
+	return (
+		<div
+			{ ...useBlockProps.save() }
+			data-visible-columns={ visibleColumns }
+		></div>
+	);
 }
