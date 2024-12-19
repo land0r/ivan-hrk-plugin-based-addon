@@ -31,6 +31,6 @@ class Table_Block {
 	 * @since 1.0.0
 	 */
 	public function register_block() {
-		register_block_type( PLUGIN_NAME_PATH . '/build' );
+		register_block_type( IVAN_API_BASED_PATH . '/build' );
 	}
 }

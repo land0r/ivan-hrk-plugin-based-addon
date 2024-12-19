@@ -1,0 +1,94 @@
+// Variables
+$primary-color: #e27730;
+$primary-hover-color: #b85a1b;
+$text-color: #666;
+$text-active-color: #333;
+$white: #fff;
+$border-radius: 3px;
+
+.toplevel_page_ivan-api-based-addon #wpcontent {
+	padding-left: 0;
+}
+
+// Header styles
+#api-based-header {
+	border-top: 3px solid $primary-color;
+	padding: 24px 20px;
+
+	h1 {
+		margin: 0;
+	}
+}
+
+// Page title container
+.api-based-page-title {
+	min-height: 58px;
+	background-color: $white;
+	font-size: 14px;
+	margin-bottom: 20px;
+	padding: 0 20px;
+
+	// Tabs
+	a.tab {
+		border-bottom: 3px solid $white;
+		box-shadow: none;
+		color: $text-color;
+		display: inline-block;
+		margin-right: 30px;
+		padding: 20px 0 17px;
+		text-decoration: none;
+		transition: border-color 0.3s ease, color 0.3s ease;
+
+		&.active {
+			border-color: $primary-color;
+			color: $text-active-color;
+		}
+	}
+}
+
+/* stylelint-disable rule-empty-line-before */
+// Button styles
+.api-based-btn {
+	&.api-based-btn-orange {
+		font-size: 14px;
+		font-weight: 500;
+		padding: 9px 15px;
+		min-height: 36px;
+		line-height: 16px;
+		border-width: 1px;
+		border-style: solid;
+		background-color: $primary-color;
+		border-color: $primary-color;
+		color: $white;
+		border-radius: $border-radius;
+		cursor: pointer;
+		display: inline-block;
+		margin: 0;
+		text-decoration: none;
+		text-align: center;
+		vertical-align: middle;
+		white-space: nowrap;
+		text-shadow: none;
+		box-shadow: none;
+		outline: none;
+		transition: background-color 0.3s ease, border-color 0.3s ease;
+
+		&:hover {
+			background-color: $primary-hover-color;
+			border-color: $primary-hover-color;
+			color: $white;
+		}
+	}
+}
+/* stylelint-enable rule-empty-line-before */
+
+.api-based-page-content {
+	padding-left: 20px;
+
+	h2 {
+		color: #2c3337;
+		font-size: 20px;
+		font-weight: 600;
+		margin: 0 0 6px 0;
+	}
+}
