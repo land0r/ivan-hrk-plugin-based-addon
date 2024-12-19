@@ -25,14 +25,14 @@ use Auryn\Injector;
  *
  * @since 1.0.0
  */
-define( 'PLUGIN_NAME_PATH', plugin_dir_path( __FILE__ ) );
+define( 'IVAN_API_BASED_PATH', plugin_dir_path( __FILE__ ) );
 
 /**
  * Url to the plugin root directory.
  *
  * @since 1.0.0
  */
-define( 'PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ) );
+define( 'IVAN_API_BASED_URL', plugin_dir_url( __FILE__ ) );
 
 /**
  * Run plugin function.
@@ -42,7 +42,7 @@ define( 'PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ) );
  * @throws Exception If something went wrong.
  */
 function run_ivan_hrk_api_based_addon() {
-	require_once PLUGIN_NAME_PATH . 'vendor/autoload.php';
+	require_once IVAN_API_BASED_PATH . 'vendor/autoload.php';
 
 	$injector = new Injector();
 

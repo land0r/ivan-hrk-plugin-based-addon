@@ -13,13 +13,15 @@
 	<config name="minimum_supported_wp_version" value="8.0"/>
 
 	<rule ref="WPForms">
+		<exclude name="WordPress.WP.I18n.MissingTranslatorsComment" />
 		<exclude name="WPForms.Formatting.EmptyLineAfterFunctionDeclaration" />
 		<exclude name="WPForms.Comments.PHPDocHooks.RequiredHookDocumentation" />
+		<exclude name="WPForms.Formatting.EmptyLineBeforeReturn.AddEmptyLineBeforeReturnStatement" />
 	</rule>
 
 	<rule ref="WPForms.PHP.ValidateDomain">
 		<properties>
-			<property name="api-based" value="includes"/>
+			<property name="ivan-api-based-addon" value="includes"/>
 		</properties>
 	</rule>
 </ruleset>
