@@ -12,7 +12,6 @@ namespace Ivan_Api_Based;
 
 use Exception;
 use Auryn\Injector;
-use Auryn\InjectionException;
 use Ivan_Api_Based\Gutenberg\Table_Block;
 
 /**
