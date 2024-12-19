@@ -1,5 +1,9 @@
 # Ivan HRK API Based Addon
 
+![Version](https://img.shields.io/github/v/tag/land0r/ivan-hrk-plugin-based-addon?label=version)
+![Build Status](https://github.com/land0r/ivan-hrk-plugin-based-addon/actions/workflows/push-commit.yml/badge.svg)
+![Build Status](https://github.com/land0r/ivan-hrk-plugin-based-addon/actions/workflows/pull-request.yml/badge.svg)
+
 A WordPress plugin that retrieves data from a remote API and displays it via a Gutenberg block and an admin page. The plugin includes a custom AJAX endpoint and a WP CLI command for enhanced functionality.
 
 ## Features
