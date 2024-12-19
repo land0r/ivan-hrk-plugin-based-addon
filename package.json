@@ -18,8 +18,8 @@
 	},
 	"files": [
 		"build",
-		"vendor",
 		"includes",
+		"vendor",
 		"ivan-hrk-api-based-addon.php"
 	],
 	"keywords": [

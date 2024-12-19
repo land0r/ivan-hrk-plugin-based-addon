@@ -6,6 +6,7 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const RemovePlugin = require("remove-files-webpack-plugin");
 const styleOutputFolder = "build/css";
+const scriptOutputFolder = "build/js";
 
 // Import the helper to find and generate the entry points in the src directory
 const path = require( 'node:path' );
@@ -16,6 +17,7 @@ module.exports = {
 	entry: {
 		...defaultConfig.entry(),
 		'css/admin': path.resolve( __dirname, './src/scss/admin.scss' ),
+		'js/admin': path.resolve( __dirname, './src/js/admin' ),
 	},
 	plugins: [
 		new RemovePlugin( {
@@ -40,31 +42,9 @@ module.exports = {
 						},
 					},
 					{
-						folder: './src/scss/utils',
+						folder: scriptOutputFolder,
 						method: ( absoluteItemPath ) => {
 							return new RegExp( /\.php$/, 'm' ).test( absoluteItemPath );
-						},
-					},
-					{
-						folder: './src/scss/utils',
-						method: ( absoluteItemPath ) => {
-							return new RegExp( /(\.js)(\.map)*$/, 'm' ).test( absoluteItemPath );
-						},
-					},
-					{
-						folder: '.',
-						method: ( absoluteItemPath ) => {
-							return new RegExp( /(json\.js)(\.map)*$/, 'm' ).test(
-								absoluteItemPath
-							);
-						},
-					},
-					{
-						folder: '.',
-						method: ( absoluteItemPath ) => {
-							return new RegExp( /theme\.json\.asset\.php$/, 'm' ).test(
-								absoluteItemPath
-							);
 						},
 					},
 				],

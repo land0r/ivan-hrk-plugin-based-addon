@@ -40,6 +40,7 @@ class Admin_Page {
 		add_action( 'admin_menu', [ $this, 'add_menu_page' ] );
 		add_action( 'admin_post_clear_cache', [ $this, 'handle_clear_cache' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_styles' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
 
 	/**
@@ -244,6 +245,27 @@ class Admin_Page {
 			IVAN_API_BASED_URL . '/build/css/admin.css',
 			[],
 			'1.0.0'
+		);
+	}
+
+	/**
+	 * Enqueue scripts for the admin area.
+	 *
+	 * @param string $hook Hook.
+	 *
+	 * @since 1.0.0
+	 */
+	public function enqueue_scripts( string $hook ) {
+		if ( $hook !== 'toplevel_page_ivan-api-based-addon' ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'api-based-admin-scripts',
+			IVAN_API_BASED_URL . '/build/js/admin.js',
+			[ 'jquery' ],
+			'1.0.0',
+			true
 		);
 	}
 }
