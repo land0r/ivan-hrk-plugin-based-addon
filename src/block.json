@@ -11,6 +11,12 @@
 	"supports": {
 		"html": false
 	},
+	"attributes": {
+		"columnsVisibility": {
+			"type": "object",
+			"default": {}
+		}
+	},
 	"textdomain": "ivan-hrk-api-based-addon",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

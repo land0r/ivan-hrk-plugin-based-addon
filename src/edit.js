@@ -1,35 +1,32 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useState } from '@wordpress/element';
-import { ProgressBar } from '@wordpress/components';
+import { PanelBody, ProgressBar, ToggleControl } from '@wordpress/components';
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 import './editor.scss';
 
-export default function Edit() {
+export default function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps();
+	const { columnsVisibility } = attributes;
 
 	// State for data, loading, and error handling
 	const [ response, setResponse ] = useState( [] );
 	const [ loading, setLoading ] = useState( true );
 	const [ error, setError ] = useState( null );
+
+	// Handle toggling column visibility
+	const handleToggleColumn = ( columnId ) => {
+		// Update visibility for the selected column
+		const updatedVisibility = columnsVisibility.map(
+			( column ) =>
+				column.id === columnId
+					? { ...column, visible: ! column.visible } // Toggle visibility
+					: column // Keep other columns unchanged
+		);
+
+		// Update attributes with the new visibility state
+		setAttributes( { columnsVisibility: updatedVisibility } );
+	};
 
 	useEffect( () => {
 		// Fetch data from the AJAX handler
@@ -45,7 +42,9 @@ export default function Edit() {
 					}
 				);
 
-				setResponse( ajaxResponse );
+				setResponse(
+					ajaxResponse || { data: { headers: [], rows: [] } }
+				);
 				setLoading( false );
 			} catch ( err ) {
 				setError(
@@ -56,11 +55,49 @@ export default function Edit() {
 		};
 
 		fetchData();
-	}, [] ); // Empty dependency array to fetch data only once on load
+	}, [] ); // Empty dependency array ensures fetch runs only once on load
+
+	useEffect( () => {
+		if ( response?.data?.headers?.length && response?.data?.rows?.length ) {
+			// Extract keys from the first row to use as IDs
+			const rowKeys = Object.keys( response.data.rows[ 0 ] );
+
+			// Map headers with rowKeys to initialize visibility
+			const updatedVisibility = response.data.headers.map(
+				( header, index ) => ( {
+					id: rowKeys[ index ] || `col-${ index }`, // Match keys with headers
+					label: header,
+					visible: columnsVisibility
+						? columnsVisibility.find(
+								( column ) => column.id === rowKeys[ index ]
+						  )?.visible ?? true
+						: true, // Preserve visibility state if already set
+				} )
+			);
+
+			setAttributes( { columnsVisibility: updatedVisibility } );
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [ response, setAttributes ] );
 
 	// Render loading, error, or data table
 	return (
 		<div { ...blockProps }>
+			<InspectorControls>
+				<PanelBody
+					title={ __( 'Table Settings', 'ivan-hrk-api-based-addon' ) }
+				>
+					{ columnsVisibility?.map( ( header ) => (
+						<ToggleControl
+							key={ header.id }
+							label={ header.label }
+							checked={ header.visible }
+							onChange={ () => handleToggleColumn( header.id ) }
+						/>
+					) ) }
+				</PanelBody>
+			</InspectorControls>
+
 			{ loading && (
 				<>
 					<ProgressBar />
@@ -74,21 +111,23 @@ export default function Edit() {
 				<table className="api-data-table">
 					<thead>
 						<tr>
-							{ response.data?.headers?.map(
-								( header, index ) => (
-									<th key={ index }>{ header }</th>
-								)
-							) }
+							{ columnsVisibility
+								?.filter( ( column ) => column.visible )
+								.map( ( column ) => (
+									<th key={ column.id }>{ column.label }</th>
+								) ) }
 						</tr>
 					</thead>
 					<tbody>
 						{ response.data?.rows?.map( ( row, rowIndex ) => (
 							<tr key={ rowIndex }>
-								{ Object.values( row ).map(
-									( cell, cellIndex ) => (
-										<td key={ cellIndex }>{ cell }</td>
-									)
-								) }
+								{ columnsVisibility
+									?.filter( ( column ) => column.visible )
+									.map( ( column ) => (
+										<td key={ column.id }>
+											{ row[ column.id ] || '-' }
+										</td>
+									) ) }
 							</tr>
 						) ) }
 					</tbody>
