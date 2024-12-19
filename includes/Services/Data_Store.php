@@ -80,8 +80,8 @@ class Data_Store {
 	 *
 	 * @since 1.0.0
 	 */
-	public function clear_cache(): void {
-		delete_transient( $this->get_cache_key() );
+	public function clear_cache() {
+		return delete_transient( $this->get_cache_key() );
 	}
 
 	/**

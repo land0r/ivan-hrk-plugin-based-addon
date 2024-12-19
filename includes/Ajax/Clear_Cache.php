@@ -70,7 +70,15 @@ class Clear_Cache {
 		}
 
 		// Clear the cache using the Data Store.
-		$this->data_store->clear_cache();
+		$clearing_status = $this->data_store->clear_cache();
+
+		if ( ! $clearing_status ) {
+			wp_send_json_error(
+				[
+					'message' => __( 'Cache not cleared!', 'ivan-api-based-addon' ),
+				]
+			);
+		}
 
 		// Respond with success.
 		wp_send_json_success(
