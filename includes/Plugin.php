@@ -29,12 +29,6 @@ use Ivan_Api_Based\Services\Data_Store;
 class Plugin {
 
 	/**
-	 * Plugin version.
-	 *
-	 * @since 1.0.0
-	 */
-	const VERSION = '1.0.0';
-	/**
 	 * Dependency Injection Container.
 	 *
 	 * @since 1.0.0

@@ -233,7 +233,7 @@ class Admin_Page {
 			'api-based-admin-styles',
 			IVAN_API_BASED_URL . '/build/css/admin.css',
 			[],
-			'1.0.0'
+			IVAN_API_BASED_VERSION
 		);
 	}
 
@@ -253,7 +253,7 @@ class Admin_Page {
 			'api-based-admin-scripts',
 			IVAN_API_BASED_URL . '/build/js/admin.js',
 			[ 'jquery' ],
-			'1.0.0',
+			IVAN_API_BASED_VERSION,
 			true
 		);
 
