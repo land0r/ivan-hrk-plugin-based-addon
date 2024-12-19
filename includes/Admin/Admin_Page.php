@@ -49,8 +49,8 @@ class Admin_Page {
 	 */
 	public function add_menu_page(): void {
 		add_menu_page(
-			__( 'API Data', 'ivan-api-based-addon' ),
-			__( 'API Data', 'ivan-api-based-addon' ),
+			__( 'Ivan API Data', 'ivan-api-based-addon' ),
+			__( 'Ivan API Data', 'ivan-api-based-addon' ),
 			'manage_options',
 			'ivan-api-based-addon',
 			[ $this, 'render_page' ],
@@ -80,7 +80,7 @@ class Admin_Page {
 	 * @since 1.0.0
 	 */
 	public function render_page(): void {
-		$data             = $this->data_store->get_data();
+		$data_storage     = $this->data_store->get_data();
 		$cache_expiration = $this->get_cache_expiration_human_readable();
 		$cache_cleared    = filter_input( INPUT_GET, 'cache_cleared', FILTER_VALIDATE_BOOLEAN );
 		?>
@@ -101,28 +101,7 @@ class Admin_Page {
 					</div>
 
 					<div class="api-based-page-content">
-						<table class="widefat fixed">
-							<thead>
-							<tr>
-								<th><?php esc_html_e( 'Key', 'ivan-api-based-addon' ); ?></th>
-								<th><?php esc_html_e( 'Value', 'ivan-api-based-addon' ); ?></th>
-							</tr>
-							</thead>
-							<tbody>
-							<?php if ( ! empty( $data ) ) : ?>
-								<?php foreach ( $data as $key => $value ) : ?>
-									<tr>
-										<td><?php echo esc_html( $key ); ?></td>
-										<td><?php echo esc_html( is_array( $value ) ? wp_json_encode( $value ) : $value ); ?></td>
-									</tr>
-								<?php endforeach; ?>
-							<?php else : ?>
-								<tr>
-									<td colspan="2"><?php esc_html_e( 'No cached data available.', 'ivan-api-based-addon' ); ?></td>
-								</tr>
-							<?php endif; ?>
-							</tbody>
-						</table>
+						<?php $this->render_table( $data_storage ); ?>
 
 						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 							<?php wp_nonce_field( 'clear_cache_action' ); ?>
@@ -150,6 +129,70 @@ class Admin_Page {
 				</div>
 			</div>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Renders the admin table.
+	 *
+	 * @param array $data_storage Cache result.
+	 *
+	 * @since 1.0.0
+	 */
+	public function render_table( array $data_storage ) {
+		$storage_data = $data_storage['data'] ?? [];
+		$headers      = $storage_data['headers'] ?? [];
+		$rows         = $storage_data['rows'] ?? [];
+
+		if ( empty( $rows ) || empty( $headers ) ) {
+			esc_html_e( 'No cached data available.', 'ivan-api-based-addon' );
+			return;
+		}
+		?>
+		<table class="widefat fixed">
+			<?php $this->render_table_header( $headers ); ?>
+			<?php $this->render_table_body( $rows ); ?>
+		</table>
+		<?php
+	}
+
+	/**
+	 * Renders the admin table header.
+	 *
+	 * @param array $headers List.
+	 *
+	 * @since 1.0.0
+	 */
+	public function render_table_header( array $headers ) {
+		?>
+		<thead>
+		<tr>
+			<?php foreach ( $headers as $header ) : ?>
+				<th><?php echo esc_html( $header ); ?></th>
+			<?php endforeach; ?>
+		</tr>
+		</thead>
+		<?php
+	}
+
+	/**
+	 * Renders the admin table body.
+	 *
+	 * @param array $rows List.
+	 *
+	 * @since 1.0.0
+	 */
+	public function render_table_body( array $rows ) {
+		?>
+		<tbody>
+		<?php foreach ( $rows as $row ) : ?>
+			<tr>
+				<?php foreach ( $row as $cell ) : ?>
+					<td><?php echo esc_html( $cell ); ?></td>
+				<?php endforeach; ?>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
 		<?php
 	}
 
