@@ -58,8 +58,12 @@ class Refresh_Cache_Command {
 	 * @param array $assoc_args Associative command arguments.
 	 */
 	public function refresh_cache( $args, $assoc_args ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
-		$this->data_store->clear_cache();
+		$clearing_status = $this->data_store->clear_cache();
 
-		WP_CLI::success( __( 'Cache cleared successfully. Data will be refreshed on the next AJAX request.', 'ivan-api-based-addon' ) );
+		if ( $clearing_status ) {
+			WP_CLI::success( __( 'Cache cleared successfully. Data will be refreshed on the next AJAX request.', 'ivan-api-based-addon' ) );
+		} else {
+			WP_CLI::error( __( 'Cache not cleared!', 'ivan-api-based-addon' ) );
+		}
 	}
 }

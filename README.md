@@ -22,6 +22,15 @@ The following resources were used in the development of this plugin:
 5. **Hook-Based Plugin Structure:**
    - [WordPress Plugin Constructors Shouldn’t Define Hooks](https://tommcfarlin.com/wordpress-plugin-constructors-hooks/)
 
+## Possible optimization
+
+- create Interface for `Data_Store` in case if we need different type of storages, depends on website setup (Transient, Redis, Memcache, ...). Data store can be conditional.
+- `Admin_Page.php` restructure and splitting into smaller classes
+- Validator and data format for REST API responses, check that we always have the same number of headers and row cells, etc.
+- Add options for customization, user could change: cache lifetime, datetime format for date column
+- For block: styling options, [header, cells colors and background](https://wordpress.github.io/gutenberg/?path=/docs/components-colorpalette--docs), [font](https://wordpress.github.io/gutenberg/?path=/docs/components-fontsizepicker--docs), [border](https://wordpress.github.io/gutenberg/?path=/docs/components-borderboxcontrol--docs), padding and margin), [block styles](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-styles/), etc.
+- For block: add sorting options with possibility to enable/disable that functionality for some columns
+
 ## Features
 
 - Fetches data from a remote API endpoint: `https://miusage.com/v1/challenge/1/`.

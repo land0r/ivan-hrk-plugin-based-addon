@@ -38,7 +38,6 @@ class Admin_Page {
 	 */
 	public function hooks(): void {
 		add_action( 'admin_menu', [ $this, 'add_menu_page' ] );
-		add_action( 'admin_post_clear_cache', [ $this, 'handle_clear_cache' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_styles' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
@@ -58,21 +57,6 @@ class Admin_Page {
 			'dashicons-admin-tools',
 			4
 		);
-	}
-
-	/**
-	 * Handles the clear cache action.
-	 *
-	 * @since 1.0.0
-	 */
-	public function handle_clear_cache(): void {
-		// Verify nonce for security.
-		check_admin_referer( 'clear_cache_action' );
-
-		$this->data_store->clear_cache();
-
-		wp_safe_redirect( admin_url( 'admin.php?page=ivan-api-based-addon&cache_cleared=1' ) );
-		exit;
 	}
 
 	/**
