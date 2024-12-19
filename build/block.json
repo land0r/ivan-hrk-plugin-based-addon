@@ -13,8 +13,8 @@
   },
   "attributes": {
     "columnsVisibility": {
-      "type": "object",
-      "default": {}
+      "type": "array",
+      "default": []
     }
   },
   "textdomain": "ivan-hrk-api-based-addon",

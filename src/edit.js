@@ -108,30 +108,50 @@ export default function Edit( { attributes, setAttributes } ) {
 			{ error && <p className="error">{ error }</p> }
 
 			{ ! loading && ! error && (
-				<table className="api-data-table">
-					<thead>
-						<tr>
-							{ columnsVisibility
-								?.filter( ( column ) => column.visible )
-								.map( ( column ) => (
-									<th key={ column.id }>{ column.label }</th>
-								) ) }
-						</tr>
-					</thead>
-					<tbody>
-						{ response.data?.rows?.map( ( row, rowIndex ) => (
-							<tr key={ rowIndex }>
-								{ columnsVisibility
-									?.filter( ( column ) => column.visible )
-									.map( ( column ) => (
-										<td key={ column.id }>
-											{ row[ column.id ] || '-' }
-										</td>
-									) ) }
-							</tr>
-						) ) }
-					</tbody>
-				</table>
+				<>
+					{ columnsVisibility?.every(
+						( column ) => ! column.visible
+					) ? (
+						<p className="no-columns-message">
+							{ __(
+								'All columns are hidden. Please enable at least one column to display the table.',
+								'ivan-hrk-api-based-addon'
+							) }
+						</p>
+					) : (
+						<table className="api-data-table">
+							<thead>
+								<tr>
+									{ columnsVisibility
+										?.filter( ( column ) => column.visible )
+										.map( ( column ) => (
+											<th key={ column.id }>
+												{ column.label }
+											</th>
+										) ) }
+								</tr>
+							</thead>
+							<tbody>
+								{ response.data?.rows?.map(
+									( row, rowIndex ) => (
+										<tr key={ rowIndex }>
+											{ columnsVisibility
+												?.filter(
+													( column ) => column.visible
+												)
+												.map( ( column ) => (
+													<td key={ column.id }>
+														{ row[ column.id ] ||
+															'-' }
+													</td>
+												) ) }
+										</tr>
+									)
+								) }
+							</tbody>
+						</table>
+					) }
+				</>
 			) }
 		</div>
 	);
