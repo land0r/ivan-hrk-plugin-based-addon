@@ -83,7 +83,6 @@ class Admin_Page {
 	public function render_page(): void {
 		$data_storage     = $this->data_store->get_data();
 		$cache_expiration = $this->get_cache_remaining_time();
-		$cache_cleared    = filter_input( INPUT_GET, 'cache_cleared', FILTER_VALIDATE_BOOLEAN );
 		?>
 		<div id="api-based-header">
 			<h1><?php esc_html_e( 'Ivan Dashboard', 'ivan-api-based-addon' ); ?></h1>
@@ -91,12 +90,6 @@ class Admin_Page {
 		<div id="wpbody" role="main">
 			<div id="wpbody-content">
 				<div class="wrap" id="api-based-content">
-					<?php if ( $cache_cleared ) : ?>
-						<div class="notice notice-success">
-							<p><?php esc_html_e( 'Cache cleared successfully.', 'ivan-api-based-addon' ); ?></p>
-						</div>
-					<?php endif; ?>
-
 					<div class="api-based-page-title">
 						<a href="#" class="tab active">General</a>
 					</div>
@@ -104,28 +97,24 @@ class Admin_Page {
 					<div class="api-based-page-content">
 						<?php $this->render_table( $data_storage ); ?>
 
-						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-							<?php wp_nonce_field( 'clear_cache_action' ); ?>
-							<input type="hidden" name="action" value="clear_cache">
-							<p>
-								<button type="submit" class="api-based-btn api-based-btn-orange">
-									<?php esc_html_e( 'Clear Cache', 'ivan-api-based-addon' ); ?>
-								</button>
-							</p>
+						<p>
+							<button type="button" id="clear-cache-btn" class="api-based-btn api-based-btn-orange">
+								<?php esc_html_e( 'Clear Cache', 'ivan-api-based-addon' ); ?>
+							</button>
+						</p>
 
-							<p>
-								<?php if ( $cache_expiration ) : ?>
-									<small>
-										<?php
-										// Translators: Cache will be updated in: %s.
-										printf( esc_html__( 'Cache will be updated in: %s', 'ivan-api-based-addon' ), esc_html( $cache_expiration ) );
-										?>
-									</small>
-								<?php else : ?>
-									<span><?php esc_html_e( 'Cache is empty or expired.', 'ivan-api-based-addon' ); ?></span>
-								<?php endif; ?>
-							</p>
-						</form>
+						<p>
+							<?php if ( $cache_expiration ) : ?>
+								<small>
+									<?php
+									// Translators: Cache will be updated in: %s.
+									printf( esc_html__( 'Cache will be updated in: %s', 'ivan-api-based-addon' ), esc_html( $cache_expiration ) );
+									?>
+								</small>
+							<?php else : ?>
+								<span><?php esc_html_e( 'Cache is empty or expired.', 'ivan-api-based-addon' ); ?></span>
+							<?php endif; ?>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -266,6 +255,16 @@ class Admin_Page {
 			[ 'jquery' ],
 			'1.0.0',
 			true
+		);
+
+		// Handle for the view script.
+		wp_localize_script(
+			'api-based-admin-scripts',
+			'IvanApiBasedAddon',
+			[
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'nonce'    => wp_create_nonce( 'ivan_api_based_nonce' ),
+			]
 		);
 	}
 }

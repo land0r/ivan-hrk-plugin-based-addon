@@ -13,6 +13,7 @@ namespace Ivan_Api_Based;
 use Exception;
 use Auryn\Injector;
 use Ivan_Api_Based\Admin\Admin_Page;
+use Ivan_Api_Based\Ajax\Clear_Cache;
 use Ivan_Api_Based\Ajax\Fetch_Data;
 use Ivan_Api_Based\CLI\Refresh_Cache_Command;
 use Ivan_Api_Based\Gutenberg\Table_Block;
@@ -92,6 +93,20 @@ class Plugin {
 				]
 			)
 			->make( Fetch_Data::class )->hooks();
+
+		$this->injector
+			/**
+			 * Define dependency for Clear_Cache.
+			 *
+			 * @since 1.0.0
+			 */
+			->define(
+				Clear_Cache::class,
+				[
+					':data_store' => $this->injector->make( Data_Store::class ),
+				]
+			)
+			->make( Clear_Cache::class )->hooks();
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			$this->injector
