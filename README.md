@@ -66,7 +66,8 @@ To set up the development environment for the plugin, ensure the following tools
 Clone the repository to your local development environment:
    ```bash
    git clone https://github.com/land0r/ivan-hrk-plugin-based-addon.git
-   cd ivan-hrk-plugin-based-addon```
+   cd ivan-hrk-plugin-based-addon
+   ```
 2. **Install PHP Dependencies**
 	```bash
 	composer install
