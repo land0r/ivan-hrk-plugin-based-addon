@@ -56,8 +56,7 @@ class Fetch_Data {
 	 * @since 1.0.0
 	 */
 	public function handle_ajax_request(): void {
-		// Validate the nonce for security.
-		$this->verify_nonce();
+		check_ajax_referer( 'ivan_api_based_nonce', 'nonce' );
 
 		// Get the visible columns from the request.
 		$visible_columns = $this->get_visible_columns();
@@ -67,22 +66,6 @@ class Fetch_Data {
 
 		// Send the response.
 		$this->send_response( $data );
-	}
-
-	/**
-	 * Verifies the nonce for security.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	private function verify_nonce(): void {
-		$nonce = filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_STRING );
-
-		if ( ! wp_verify_nonce( $nonce, 'ivan_api_based_nonce' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Invalid nonce.', 'ivan-hrk-api-based-addon' ) ], 400 );
-			exit;
-		}
 	}
 
 	/**
