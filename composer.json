@@ -16,13 +16,16 @@
 		"awesomemotive/wpforms-phpcs": "^1.3"
 	},
 	"autoload": {
-		"psr-4": {
-			"Ivan_Api_Based\\": "includes/"
-		}
+		"classmap": [
+			"includes/"
+		]
 	},
 	"config": {
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"platform": {
+			"php": "8.0"
 		}
 	}
 }
