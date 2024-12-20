@@ -181,6 +181,7 @@ class Admin_Page {
 		if ( $expiration_time && $expiration_time > time() ) {
 			// Use human_time_diff for a simpler, human-readable format.
 			return sprintf(
+				/* translators: Expires in some time. */
 				__( 'Expires in %s', 'ivan-hrk-api-based-addon' ),
 				human_time_diff( time(), $expiration_time )
 			);

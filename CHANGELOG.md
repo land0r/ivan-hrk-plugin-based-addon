@@ -6,7 +6,7 @@
 ```markdown
 # Changelog
 
-## [1.0.0] - YYYY-MM-DD
+## [1.0.0] - 2024-12-19
 ### Added
 - Initial release of **Ivan HRK API Based Addon**.
 - Fetch and cache data from the `https://miusage.com/v1/challenge/1/` API endpoint.
@@ -21,3 +21,7 @@
   - OOP design and PSR-4 autoloading.
   - WordPress Coding Standards compliance.
   - Composer for dependency management.
+
+## [1.1.0] - 2024-12-19
+
+## [1.2.0] - 2024-12-20
