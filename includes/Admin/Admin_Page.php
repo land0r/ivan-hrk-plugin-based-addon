@@ -172,7 +172,7 @@ class Admin_Page {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string|null Remaining time or null if the cache is empty/expired.
+	 * @return string Remaining time or null if the cache is empty/expired.
 	 */
 	private function get_cache_remaining_time() {
 		$cache_key       = $this->data_store->get_cache_key();
