@@ -80,7 +80,7 @@ class Fetch_Data {
 		$nonce = filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_STRING );
 
 		if ( ! wp_verify_nonce( $nonce, 'ivan_api_based_nonce' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Invalid nonce.', 'ivan-api-based-addon' ) ], 400 );
+			wp_send_json_error( [ 'message' => __( 'Invalid nonce.', 'ivan-hrk-api-based-addon' ) ], 400 );
 			exit;
 		}
 	}
@@ -172,7 +172,7 @@ class Fetch_Data {
 		if ( ! empty( $storage_data['data']['headers'] ) && ! empty( $storage_data['data']['rows'] ) ) {
 			wp_send_json_success( $storage_data );
 		} else {
-			wp_send_json_error( [ 'message' => __( 'No data available.', 'ivan-api-based-addon' ) ] );
+			wp_send_json_error( [ 'message' => __( 'No data available.', 'ivan-hrk-api-based-addon' ) ] );
 		}
 	}
 }

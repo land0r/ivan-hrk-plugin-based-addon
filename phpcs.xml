@@ -21,7 +21,7 @@
 
 	<rule ref="WPForms.PHP.ValidateDomain">
 		<properties>
-			<property name="ivan-api-based-addon" value="includes"/>
+			<property name="ivan-hrk-api-based-addon" value="includes"/>
 		</properties>
 	</rule>
 </ruleset>

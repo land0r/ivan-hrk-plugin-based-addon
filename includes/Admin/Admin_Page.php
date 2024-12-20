@@ -49,10 +49,10 @@ class Admin_Page {
 	 */
 	public function add_menu_page(): void {
 		add_menu_page(
-			__( 'Ivan API Data', 'ivan-api-based-addon' ),
-			__( 'Ivan API Data', 'ivan-api-based-addon' ),
+			__( 'Ivan API Data', 'ivan-hrk-api-based-addon' ),
+			__( 'Ivan API Data', 'ivan-hrk-api-based-addon' ),
 			'manage_options',
-			'ivan-api-based-addon',
+			'ivan-hrk-api-based-addon',
 			[ $this, 'render_page' ],
 			'dashicons-admin-tools',
 			4
@@ -69,7 +69,7 @@ class Admin_Page {
 		$cache_expiration = $this->get_cache_remaining_time();
 		?>
 		<div id="api-based-header">
-			<h1><?php esc_html_e( 'Ivan Dashboard', 'ivan-api-based-addon' ); ?></h1>
+			<h1><?php esc_html_e( 'Ivan Dashboard', 'ivan-hrk-api-based-addon' ); ?></h1>
 		</div>
 		<div id="wpbody" role="main">
 			<div id="wpbody-content">
@@ -83,7 +83,7 @@ class Admin_Page {
 
 						<p>
 							<button type="button" id="clear-cache-btn" class="api-based-btn api-based-btn-orange">
-								<?php esc_html_e( 'Clear Cache', 'ivan-api-based-addon' ); ?>
+								<?php esc_html_e( 'Clear Cache', 'ivan-hrk-api-based-addon' ); ?>
 							</button>
 						</p>
 
@@ -92,11 +92,11 @@ class Admin_Page {
 								<small>
 									<?php
 									// Translators: Cache will be updated in: %s.
-									printf( esc_html__( 'Cache will be updated in: %s', 'ivan-api-based-addon' ), esc_html( $cache_expiration ) );
+									printf( esc_html__( 'Cache will be updated in: %s', 'ivan-hrk-api-based-addon' ), esc_html( $cache_expiration ) );
 									?>
 								</small>
 							<?php else : ?>
-								<span><?php esc_html_e( 'Cache is empty or expired.', 'ivan-api-based-addon' ); ?></span>
+								<span><?php esc_html_e( 'Cache is empty or expired.', 'ivan-hrk-api-based-addon' ); ?></span>
 							<?php endif; ?>
 						</p>
 					</div>
@@ -119,7 +119,7 @@ class Admin_Page {
 		$rows         = $storage_data['rows'] ?? [];
 
 		if ( empty( $rows ) || empty( $headers ) ) {
-			esc_html_e( 'No cached data available.', 'ivan-api-based-addon' );
+			esc_html_e( 'No cached data available.', 'ivan-hrk-api-based-addon' );
 			return;
 		}
 		?>
@@ -190,11 +190,11 @@ class Admin_Page {
 
 			// Generate human-readable remaining time.
 			if ( $hours > 0 ) {
-				return sprintf( _n( '%d hour', '%d hours', $hours, 'ivan-api-based-addon' ), $hours ) . ( $minutes > 0 ? sprintf( _n( ', %d minute', ', %d minutes', $minutes, 'ivan-api-based-addon' ), $minutes ) : '' );
+				return sprintf( _n( '%d hour', '%d hours', $hours, 'ivan-hrk-api-based-addon' ), $hours ) . ( $minutes > 0 ? sprintf( _n( ', %d minute', ', %d minutes', $minutes, 'ivan-hrk-api-based-addon' ), $minutes ) : '' );
 			} elseif ( $minutes > 0 ) {
-				return sprintf( _n( '%d minute', '%d minutes', $minutes, 'ivan-api-based-addon' ), $minutes );
+				return sprintf( _n( '%d minute', '%d minutes', $minutes, 'ivan-hrk-api-based-addon' ), $minutes );
 			} else {
-				return __( 'Less than a minute', 'ivan-api-based-addon' );
+				return __( 'Less than a minute', 'ivan-hrk-api-based-addon' );
 			}
 		}
 

@@ -57,7 +57,7 @@ class Clear_Cache {
 	public function handle_clear_cache_request(): void {
 		// Check user capability.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Unauthorized access.', 'ivan-api-based-addon' ) ], 403 );
+			wp_send_json_error( [ 'message' => __( 'Unauthorized access.', 'ivan-hrk-api-based-addon' ) ], 403 );
 			return;
 		}
 
@@ -65,7 +65,7 @@ class Clear_Cache {
 		$nonce = filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_STRING );
 
 		if ( ! wp_verify_nonce( $nonce, 'ivan_api_based_nonce' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Invalid nonce.', 'ivan-api-based-addon' ) ], 400 );
+			wp_send_json_error( [ 'message' => __( 'Invalid nonce.', 'ivan-hrk-api-based-addon' ) ], 400 );
 			return;
 		}
 
@@ -75,7 +75,7 @@ class Clear_Cache {
 		if ( ! $clearing_status ) {
 			wp_send_json_error(
 				[
-					'message' => __( 'Cache not cleared!', 'ivan-api-based-addon' ),
+					'message' => __( 'Cache not cleared!', 'ivan-hrk-api-based-addon' ),
 				]
 			);
 		}
@@ -83,7 +83,7 @@ class Clear_Cache {
 		// Respond with success.
 		wp_send_json_success(
 			[
-				'message' => __( 'Cache cleared successfully.', 'ivan-api-based-addon' ),
+				'message' => __( 'Cache cleared successfully.', 'ivan-hrk-api-based-addon' ),
 			]
 		);
 	}
