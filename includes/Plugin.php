@@ -5,7 +5,6 @@
  * @since   1.0.0
  * @license GPLv2 or later
  * @package Ivan_Api_Based
- * @author  Ivan Hryhorenko
  */
 
 namespace Ivan_Api_Based;
@@ -28,13 +27,22 @@ defined( 'ABSPATH' ) || exit;
 final class Plugin {
 
 	/**
-	 * Instance of this object.
+	 * Singleton instance of the plugin.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @var Plugin $instance Singleton.
+	 * @var Plugin
 	 */
 	private static $instance;
+
+	/**
+	 * Data store service instance.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var Data_Store
+	 */
+	private $data_store;
 
 	/**
 	 * Get the current instance.
@@ -57,44 +65,78 @@ final class Plugin {
 	 * @since 1.0.0
 	 */
 	private function __construct() {
-		$this->loader();
+		$this->initialize_services();
+		$this->initialize_components();
 	}
 
 	/**
-	 * Load all required classes.
+	 * Initialize core services used across the plugin.
 	 *
 	 * @since 1.2.0
 	 */
-	private function loader(): void {
-		// Initialize shared services.
-		$data_store = new Data_Store( new Api_Client() );
+	private function initialize_services(): void {
+		$this->data_store = new Data_Store( new Api_Client() );
+	}
 
-		// Load Gutenberg block functionality.
+	/**
+	 * Initialize and load all plugin components.
+	 *
+	 * @since 1.2.0
+	 */
+	private function initialize_components(): void {
+		$this->initialize_gutenberg();
+		$this->initialize_ajax();
+		$this->initialize_admin();
+		$this->initialize_wp_cli();
+	}
+
+	/**
+	 * Initialize Gutenberg components.
+	 *
+	 * @since 1.2.0
+	 */
+	private function initialize_gutenberg(): void {
 		$table_block = new Table_Block();
 
 		$table_block->hooks();
+	}
 
-		// Load AJAX functionality.
-		$fetch_data = new Fetch_Data( $data_store );
+	/**
+	 * Initialize AJAX handlers.
+	 *
+	 * @since 1.2.0
+	 */
+	private function initialize_ajax(): void {
+		$fetch_data  = new Fetch_Data( $this->data_store );
+		$clear_cache = new Clear_Cache( $this->data_store );
 
 		$fetch_data->hooks();
-
-		$clear_cache = new Clear_Cache( $data_store );
-
 		$clear_cache->hooks();
+	}
 
-		// Load WP CLI functionality if available.
-		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			$refresh_cache_command = new Refresh_Cache_Command( $data_store );
-
-			$refresh_cache_command->hooks();
-		}
-
+	/**
+	 * Initialize admin-related components.
+	 *
+	 * @since 1.2.0
+	 */
+	private function initialize_admin(): void {
 		if ( is_admin() ) {
-			// Load Admin Page.
-			$admin_page = new Admin_Page( $data_store );
+			$admin_page = new Admin_Page( $this->data_store );
 
 			$admin_page->hooks();
+		}
+	}
+
+	/**
+	 * Initialize WP CLI commands.
+	 *
+	 * @since 1.2.0
+	 */
+	private function initialize_wp_cli(): void {
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			$refresh_cache_command = new Refresh_Cache_Command( $this->data_store );
+
+			$refresh_cache_command->hooks();
 		}
 	}
 }
