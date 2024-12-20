@@ -19,7 +19,9 @@ jQuery( document ).ready( function ( $ ) {
 					location.reload();
 					// TODO: Possible enhancement – show a dismissible message in the admin panel + live reload of the data.
 				} else {
-					alert( response.data.message || IvanApiBasedAddon.errorMessage );
+					alert(
+						response.data.message || IvanApiBasedAddon.errorMessage
+					);
 				}
 			},
 			error: function () {
