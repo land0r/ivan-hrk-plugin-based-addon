@@ -90,10 +90,7 @@ class Admin_Page {
 						<p>
 							<?php if ( $cache_expiration ) : ?>
 								<small>
-									<?php
-									// Translators: Cache will be updated in: %s.
-									printf( esc_html__( 'Cache will be updated in: %s', 'ivan-hrk-api-based-addon' ), esc_html( $cache_expiration ) );
-									?>
+									<?php esc_html( $cache_expiration ); ?>
 								</small>
 							<?php else : ?>
 								<span><?php esc_html_e( 'Cache is empty or expired.', 'ivan-hrk-api-based-addon' ); ?></span>
@@ -182,23 +179,14 @@ class Admin_Page {
 		$expiration_time = get_option( '_transient_timeout_' . $cache_key );
 
 		if ( $expiration_time && $expiration_time > time() ) {
-			$remaining_seconds = $expiration_time - time();
-
-			// Calculate hours and minutes.
-			$hours   = floor( $remaining_seconds / 3600 );
-			$minutes = floor( ( $remaining_seconds % 3600 ) / 60 );
-
-			// Generate human-readable remaining time.
-			if ( $hours > 0 ) {
-				return sprintf( _n( '%d hour', '%d hours', $hours, 'ivan-hrk-api-based-addon' ), $hours ) . ( $minutes > 0 ? sprintf( _n( ', %d minute', ', %d minutes', $minutes, 'ivan-hrk-api-based-addon' ), $minutes ) : '' );
-			} elseif ( $minutes > 0 ) {
-				return sprintf( _n( '%d minute', '%d minutes', $minutes, 'ivan-hrk-api-based-addon' ), $minutes );
-			} else {
-				return __( 'Less than a minute', 'ivan-hrk-api-based-addon' );
-			}
+			// Use human_time_diff for a simpler, human-readable format.
+			return sprintf(
+				__( 'Expires in %s', 'ivan-hrk-api-based-addon' ),
+				human_time_diff( time(), $expiration_time )
+			);
 		}
 
-		return null;
+		return __( 'No cached data.', 'ivan-hrk-api-based-addon' );
 	}
 
 	/**
@@ -209,7 +197,7 @@ class Admin_Page {
 	 * @since 1.0.0
 	 */
 	public function enqueue_styles( string $hook ): void {
-		if ( $hook !== 'toplevel_page_ivan-api-based-addon' ) {
+		if ( $hook !== 'toplevel_page_ivan-hrk-api-based-addon' ) {
 			return;
 		}
 
@@ -229,7 +217,7 @@ class Admin_Page {
 	 * @since 1.0.0
 	 */
 	public function enqueue_scripts( string $hook ) {
-		if ( $hook !== 'toplevel_page_ivan-api-based-addon' ) {
+		if ( $hook !== 'toplevel_page_ivan-hrk-api-based-addon' ) {
 			return;
 		}
 
@@ -246,8 +234,11 @@ class Admin_Page {
 			'api-based-admin-scripts',
 			'IvanApiBasedAddon',
 			[
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'ivan_api_based_nonce' ),
+				'ajax_url'      => admin_url( 'admin-ajax.php' ),
+				'nonce'         => wp_create_nonce( 'ivan_api_based_nonce' ),
+				'clearingCache' => __( 'Clearing...', 'ivan-hrk-api-based-addon' ),
+				'errorMessage'  => __( 'Error clearing cache.', 'ivan-hrk-api-based-addon' ),
+				'btnText'       => __( 'Clear Cache', 'ivan-hrk-api-based-addon' ),
 			]
 		);
 	}

@@ -4,7 +4,7 @@ jQuery( document ).ready( function ( $ ) {
 		e.preventDefault();
 
 		const button = $( this );
-		button.prop( 'disabled', true ).text( 'Clearing...' );
+		button.prop( 'disabled', true ).text( IvanApiBasedAddon.clearingCache );
 
 		$.ajax( {
 			url: IvanApiBasedAddon.ajax_url,
@@ -19,11 +19,11 @@ jQuery( document ).ready( function ( $ ) {
 					location.reload();
 					// TODO: Possible enhancement – show a dismissible message in the admin panel + live reload of the data.
 				} else {
-					alert( response.data.message || 'Error clearing cache.' );
+					alert( response.data.message || IvanApiBasedAddon.errorMessage );
 				}
 			},
 			error: function () {
-				alert( 'An error occurred while clearing the cache.' );
+				alert( IvanApiBasedAddon.errorMessage );
 			},
 			complete: function () {
 				button.prop( 'disabled', false ).text( 'Clear Cache' );
