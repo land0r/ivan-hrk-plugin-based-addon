@@ -1,1 +1,40 @@
-.wp-block-ivan-hrk-api-based-addon .api-data-table{border:1px solid #c3c4c7;border-collapse:collapse;border-spacing:0;box-shadow:0 1px 1px rgba(0,0,0,.04);clear:both;font-size:16px;margin:0;text-align:right;width:100%;word-wrap:break-word}.wp-block-ivan-hrk-api-based-addon .api-data-table td,.wp-block-ivan-hrk-api-based-addon .api-data-table th{font-size:13px;line-height:1.5;padding:8px 10px;text-align:right;vertical-align:top}.wp-block-ivan-hrk-api-based-addon .api-data-table tr:nth-child(odd){background-color:#f6f7f7}.wp-block-ivan-hrk-api-based-addon .api-data-table tfoot td,.wp-block-ivan-hrk-api-based-addon .api-data-table tfoot th,.wp-block-ivan-hrk-api-based-addon .api-data-table thead td,.wp-block-ivan-hrk-api-based-addon .api-data-table thead th{background:#fff;border-bottom:1px solid #c3c4c7;font-size:14px;line-height:1.3}.wp-block-ivan-hrk-api-based-addon .api-data-table tfoot td,.wp-block-ivan-hrk-api-based-addon .api-data-table tfoot th{border-bottom:none;border-top:1px solid #c3c4c7}
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/style.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+.wp-block-ivan-hrk-api-based-addon .api-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 16px;
+  text-align: right;
+  border: 1px solid #c3c4c7;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  margin: 0;
+  clear: both;
+  word-wrap: break-word;
+}
+.wp-block-ivan-hrk-api-based-addon .api-data-table td,
+.wp-block-ivan-hrk-api-based-addon .api-data-table th {
+  padding: 8px 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: right;
+  vertical-align: top;
+}
+.wp-block-ivan-hrk-api-based-addon .api-data-table tr:nth-child(odd) {
+  background-color: #f6f7f7;
+}
+.wp-block-ivan-hrk-api-based-addon .api-data-table thead th,
+.wp-block-ivan-hrk-api-based-addon .api-data-table thead td,
+.wp-block-ivan-hrk-api-based-addon .api-data-table tfoot th,
+.wp-block-ivan-hrk-api-based-addon .api-data-table tfoot td {
+  background: #fff;
+  border-bottom: 1px solid #c3c4c7;
+  line-height: 1.3;
+  font-size: 14px;
+}
+.wp-block-ivan-hrk-api-based-addon .api-data-table tfoot th,
+.wp-block-ivan-hrk-api-based-addon .api-data-table tfoot td {
+  border-top: 1px solid #c3c4c7;
+  border-bottom: none;
+}

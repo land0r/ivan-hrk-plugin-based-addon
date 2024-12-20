@@ -4,7 +4,7 @@
  * Description:       A WordPress plugin for retrieving and displaying data from a remote API with a custom Gutenberg block, admin panel, and WP CLI command.
  * Requires at least: 6.6
  * Requires PHP:      8.0
- * Version:           1.2.0
+ * Version:           1.2.1
  * Author:            Ivan Hryhorenko
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -38,7 +38,7 @@ define( 'IVAN_API_BASED_URL', plugin_dir_url( __FILE__ ) );
  *
  * @since 1.0.0
  */
-define( 'IVAN_API_BASED_VERSION', '1.2.0' );
+define( 'IVAN_API_BASED_VERSION', '1.2.1' );
 
 require_once IVAN_API_BASED_PATH . 'vendor/autoload.php';
 
