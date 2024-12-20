@@ -1,6 +1,6 @@
 {
 	"name": "ivan-hrk-api-based-addon",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "A WordPress plugin for retrieving and displaying data from a remote API with a custom Gutenberg block, admin panel, and WP CLI command.",
 	"author": "Ivan Hryhorenko",
 	"license": "GPL-2.0-or-later",
