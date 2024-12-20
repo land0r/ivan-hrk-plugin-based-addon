@@ -90,7 +90,7 @@ class Admin_Page {
 						<p>
 							<?php if ( $cache_expiration ) : ?>
 								<small>
-									<?php esc_html( $cache_expiration ); ?>
+									<?php echo esc_html( $cache_expiration ); ?>
 								</small>
 							<?php else : ?>
 								<span><?php esc_html_e( 'Cache is empty or expired.', 'ivan-hrk-api-based-addon' ); ?></span>
@@ -120,7 +120,7 @@ class Admin_Page {
 			return;
 		}
 		?>
-		<table class="widefat fixed">
+		<table class="wp-list-table widefat fixed striped table-view-list">
 			<?php $this->render_table_header( $headers ); ?>
 			<?php $this->render_table_body( $rows ); ?>
 		</table>
