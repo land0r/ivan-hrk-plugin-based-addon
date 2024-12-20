@@ -4,3 +4,69 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+@use "sass:color";
+
+$primary-color: #e27730;
+$primary-hover-color: #b85a1b;
+$text-color: #666;
+$main-color: #2c3337;
+$text-active-color: #333;
+$white: #fff;
+
+// Table Styling
+.wp-block-ivan-hrk-api-based-addon .api-data-table {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: $white;
+	color: $text-color;
+	font-size: 16px;
+	text-align: left;
+
+	th {
+		background-color: $main-color;
+		color: $white;
+		padding: 12px;
+		border: 1px solid $primary-color;
+		font-weight: 700;
+		text-transform: uppercase;
+
+		&:hover {
+			background-color: $primary-hover-color;
+			color: $white;
+		}
+	}
+
+	td {
+		padding: 12px;
+		border: 1px solid $primary-color;
+		color: $text-active-color;
+
+		&:hover {
+			background-color: $primary-hover-color;
+			color: $white;
+		}
+	}
+
+	tr:nth-child(even) {
+		background-color: $white;
+	}
+
+	tr:nth-child(odd) {
+		background-color: color.mix($primary-color, $white, 50%);
+	}
+
+	tr:hover {
+		background-color: $primary-hover-color;
+
+		td {
+			color: $white;
+		}
+	}
+
+	caption {
+		font-size: 18px;
+		font-weight: 700;
+		color: $text-active-color;
+		margin-bottom: 8px;
+	}
+}

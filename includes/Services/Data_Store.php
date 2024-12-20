@@ -25,7 +25,7 @@ class Data_Store {
 	 *
 	 * @var string
 	 */
-	private $cache_key = 'ivan_api_based_data';
+	private const CACHE_KEY = 'ivan_api_based_data';
 
 	/**
 	 * API client instance.
@@ -58,7 +58,7 @@ class Data_Store {
 	 */
 	public function get_data(): array {
 		// Check if data is in the cache.
-		$cached_data = get_transient( $this->cache_key );
+		$cached_data = get_transient( $this->get_cache_key() );
 
 		if ( $cached_data ) {
 			return $cached_data;
@@ -92,7 +92,7 @@ class Data_Store {
 	 * @return string The cache key.
 	 */
 	public function get_cache_key(): string {
-		return $this->cache_key;
+		return apply_filters( 'ivan_api_based_services_data_store_cache_key', self::CACHE_KEY );
 	}
 
 	/**

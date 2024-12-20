@@ -24,7 +24,7 @@ class Api_Client {
 	 *
 	 * @var string
 	 */
-	private $endpoint = 'https://miusage.com/v1/challenge/1/';
+	private const ENDPOINT = 'https://miusage.com/v1/challenge/1/';
 
 	/**
 	 * Fetch data from the API endpoint.
@@ -36,7 +36,7 @@ class Api_Client {
 	 * @return array The decoded API response data.
 	 */
 	public function fetch_data(): array {
-		$response = wp_remote_get( $this->endpoint );
+		$response = wp_remote_get( self::ENDPOINT );
 
 		// Handle errors in the API request.
 		if ( is_wp_error( $response ) ) {

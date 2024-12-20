@@ -61,9 +61,9 @@ class Refresh_Cache_Command {
 		$clearing_status = $this->data_store->clear_cache();
 
 		if ( $clearing_status ) {
-			WP_CLI::success( __( 'Cache cleared successfully. Data will be refreshed on the next AJAX request.', 'ivan-api-based-addon' ) );
+			WP_CLI::success( __( 'Cache cleared successfully. Data will be refreshed on the next AJAX request.', 'ivan-hrk-api-based-addon' ) );
 		} else {
-			WP_CLI::error( __( 'Cache not cleared!', 'ivan-api-based-addon' ) );
+			WP_CLI::error( __( 'Cache not cleared!', 'ivan-hrk-api-based-addon' ) );
 		}
 	}
 }

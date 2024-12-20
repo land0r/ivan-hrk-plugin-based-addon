@@ -2,11 +2,12 @@
 $primary-color: #e27730;
 $primary-hover-color: #b85a1b;
 $text-color: #666;
+$main-color: #2c3337;
 $text-active-color: #333;
 $white: #fff;
 $border-radius: 3px;
 
-.toplevel_page_ivan-api-based-addon #wpcontent {
+.toplevel_page_ivan-hrk-api-based-addon #wpcontent {
 	padding-left: 0;
 }
 
@@ -16,6 +17,9 @@ $border-radius: 3px;
 	padding: 24px 20px;
 
 	h1 {
+		color: $main-color;
+		font-size: 20px;
+		font-weight: 600;
 		margin: 0;
 	}
 }
@@ -86,7 +90,7 @@ $border-radius: 3px;
 	padding-left: 20px;
 
 	h2 {
-		color: #2c3337;
+		color: $main-color;
 		font-size: 20px;
 		font-weight: 600;
 		margin: 0 0 6px 0;

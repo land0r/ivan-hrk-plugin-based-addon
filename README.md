@@ -43,9 +43,43 @@ The following resources were used in the development of this plugin:
 - Fully localized and translatable strings for all user-facing text.
 - Built using modern PHP standards (OOP, PSR-4, Composer) and WordPress Coding Standards.
 
+## Development Setup
+
+### **Prerequisites**
+
+To set up the development environment for the plugin, ensure the following tools are installed on your system:
+- **[Node.js](https://nodejs.org/)** (LTS version recommended, 14+)
+- **[npm](https://www.npmjs.com/)** (comes with Node.js)
+- **[Composer](https://getcomposer.org/)** (PHP dependency manager)
+- **[Git](https://git-scm.com/)** (for cloning and version control)
+
+### **Steps**
+
+1. **Clone the Repository**
+Clone the repository to your local development environment:
+   ```bash
+   git clone https://github.com/land0r/ivan-hrk-plugin-based-addon.git
+   cd ivan-hrk-plugin-based-addon```
+2. **Install PHP Dependencies**
+	```bash
+	composer install
+ 	```
+3. **Install JavaScript Dependencies**
+   ```bash
+   npm install
+	```
+4. **Build JavaScript Files**
+   ```bash
+   npm run build
+	```
+5. For live development with file watching, use:
+    ```bash
+     npm run start
+    ```
+
 ## Installation
 
-1. Clone or download the plugin repository.
+1. Download latest release from the plugin repository.
 2. Place the plugin folder in your WordPress `wp-content/plugins` directory.
 3. Activate the plugin via the WordPress admin dashboard.
 

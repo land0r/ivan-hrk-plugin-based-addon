@@ -3,31 +3,31 @@ jQuery( document ).ready( function ( $ ) {
 	$( '#clear-cache-btn' ).on( 'click', function ( e ) {
 		e.preventDefault();
 
-		// Add loading state to button
 		const button = $( this );
-		button.prop( 'disabled', true ).text( 'Clearing...' );
+		button.prop( 'disabled', true ).text( IvanApiBasedAddon.clearingCache );
 
 		$.ajax( {
-			url: IvanApiBasedAddon.ajax_url, // Localized in PHP
+			url: IvanApiBasedAddon.ajax_url,
 			method: 'POST',
 			data: {
 				action: 'ivan_api_based_clear_cache',
-				nonce: IvanApiBasedAddon.nonce, // Security nonce
+				nonce: IvanApiBasedAddon.nonce,
 			},
 			success: function ( response ) {
 				if ( response.success ) {
-					alert( response.data.message ); // Show success message
+					alert( response.data.message );
 					location.reload();
-					// TODO: show a dismissible message in the admin panel + live reload of the data.
+					// TODO: Possible enhancement – show a dismissible message in the admin panel + live reload of the data.
 				} else {
-					alert( response.data.message || 'Error clearing cache.' );
+					alert(
+						response.data.message || IvanApiBasedAddon.errorMessage
+					);
 				}
 			},
 			error: function () {
-				alert( 'An error occurred while clearing the cache.' );
+				alert( IvanApiBasedAddon.errorMessage );
 			},
 			complete: function () {
-				// Re-enable the button
 				button.prop( 'disabled', false ).text( 'Clear Cache' );
 			},
 		} );

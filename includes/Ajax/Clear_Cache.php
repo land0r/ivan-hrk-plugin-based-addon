@@ -55,18 +55,11 @@ class Clear_Cache {
 	 * @since 1.0.0
 	 */
 	public function handle_clear_cache_request(): void {
+		check_ajax_referer( 'ivan_api_based_nonce', 'nonce' );
+
 		// Check user capability.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Unauthorized access.', 'ivan-api-based-addon' ) ], 403 );
-			return;
-		}
-
-		// Verify the nonce for security.
-		$nonce = filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_STRING );
-
-		if ( ! wp_verify_nonce( $nonce, 'ivan_api_based_nonce' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Invalid nonce.', 'ivan-api-based-addon' ) ], 400 );
-			return;
+			wp_send_json_error( [ 'message' => __( 'Unauthorized access.', 'ivan-hrk-api-based-addon' ) ], 403 );
 		}
 
 		// Clear the cache using the Data Store.
@@ -75,7 +68,7 @@ class Clear_Cache {
 		if ( ! $clearing_status ) {
 			wp_send_json_error(
 				[
-					'message' => __( 'Cache not cleared!', 'ivan-api-based-addon' ),
+					'message' => __( 'Cache not cleared!', 'ivan-hrk-api-based-addon' ),
 				]
 			);
 		}
@@ -83,7 +76,7 @@ class Clear_Cache {
 		// Respond with success.
 		wp_send_json_success(
 			[
-				'message' => __( 'Cache cleared successfully.', 'ivan-api-based-addon' ),
+				'message' => __( 'Cache cleared successfully.', 'ivan-hrk-api-based-addon' ),
 			]
 		);
 	}

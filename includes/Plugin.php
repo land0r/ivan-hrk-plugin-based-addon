@@ -5,117 +5,138 @@
  * @since   1.0.0
  * @license GPLv2 or later
  * @package Ivan_Api_Based
- * @author  Ivan Hryhorenko
  */
 
 namespace Ivan_Api_Based;
 
-use Exception;
-use Auryn\Injector;
 use Ivan_Api_Based\Admin\Admin_Page;
 use Ivan_Api_Based\Ajax\Clear_Cache;
 use Ivan_Api_Based\Ajax\Fetch_Data;
 use Ivan_Api_Based\CLI\Refresh_Cache_Command;
 use Ivan_Api_Based\Gutenberg\Table_Block;
+use Ivan_Api_Based\Services\Api_Client;
 use Ivan_Api_Based\Services\Data_Store;
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Plugin.
  *
  * @since 1.0.0
- *
- * @package Ivan_Api_Based
  */
-class Plugin {
+final class Plugin {
 
 	/**
-	 * Dependency Injection Container.
+	 * Singleton instance of the plugin.
 	 *
-	 * @since 1.0.0
+	 * @since 1.2.0
 	 *
-	 * @var Injector
+	 * @var Plugin
 	 */
-	private $injector;
+	private static $instance;
 
 	/**
-	 * Plugin Constructor.
+	 * Data store service instance.
 	 *
-	 * @since 1.0.0
+	 * @since 1.2.0
 	 *
-	 * @param Injector $injector Object.
+	 * @var Data_Store
 	 */
-	public function __construct( Injector $injector ) {
-		$this->injector = $injector;
+	private $data_store;
+
+	/**
+	 * Get the current instance.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return Plugin Current object instance.
+	 */
+	public static function get_instance(): Plugin {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**
-	 * Run plugin.
+	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @throws Exception Object doesn't exist.
 	 */
-	public function run(): void {
-		$this->injector->share( Data_Store::class );
+	private function __construct() {
+		$this->initialize_services();
+		$this->initialize_components();
+	}
 
-		$this->injector->make( Table_Block::class )->hooks();
+	/**
+	 * Initialize core services used across the plugin.
+	 *
+	 * @since 1.2.0
+	 */
+	private function initialize_services(): void {
+		$this->data_store = new Data_Store( new Api_Client() );
+	}
 
-		$this->injector
-			/**
-			 * Define dependency for Admin_Page.
-			 *
-			 * @since 1.0.0
-			 */
-			->define(
-				Admin_Page::class,
-				[
-					':data_store' => $this->injector->make( Data_Store::class ),
-				]
-			)
-			->make( Admin_Page::class )->hooks();
+	/**
+	 * Initialize and load all plugin components.
+	 *
+	 * @since 1.2.0
+	 */
+	private function initialize_components(): void {
+		$this->initialize_gutenberg();
+		$this->initialize_ajax();
+		$this->initialize_admin();
+		$this->initialize_wp_cli();
+	}
 
-		$this->injector
-			/**
-			 * Define dependency for Fetch_Data.
-			 *
-			 * @since 1.0.0
-			 */
-			->define(
-				Fetch_Data::class,
-				[
-					':data_store' => $this->injector->make( Data_Store::class ),
-				]
-			)
-			->make( Fetch_Data::class )->hooks();
+	/**
+	 * Initialize Gutenberg components.
+	 *
+	 * @since 1.2.0
+	 */
+	private function initialize_gutenberg(): void {
+		$table_block = new Table_Block();
 
-		$this->injector
-			/**
-			 * Define dependency for Clear_Cache.
-			 *
-			 * @since 1.0.0
-			 */
-			->define(
-				Clear_Cache::class,
-				[
-					':data_store' => $this->injector->make( Data_Store::class ),
-				]
-			)
-			->make( Clear_Cache::class )->hooks();
+		$table_block->hooks();
+	}
 
+	/**
+	 * Initialize AJAX handlers.
+	 *
+	 * @since 1.2.0
+	 */
+	private function initialize_ajax(): void {
+		$fetch_data  = new Fetch_Data( $this->data_store );
+		$clear_cache = new Clear_Cache( $this->data_store );
+
+		$fetch_data->hooks();
+		$clear_cache->hooks();
+	}
+
+	/**
+	 * Initialize admin-related components.
+	 *
+	 * @since 1.2.0
+	 */
+	private function initialize_admin(): void {
+		if ( is_admin() ) {
+			$admin_page = new Admin_Page( $this->data_store );
+
+			$admin_page->hooks();
+		}
+	}
+
+	/**
+	 * Initialize WP CLI commands.
+	 *
+	 * @since 1.2.0
+	 */
+	private function initialize_wp_cli(): void {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			$this->injector
-				/**
-				 * Define dependency for Refresh_Cache_Command.
-				 *
-				 * @since 1.0.0
-				 */
-				->define(
-					Refresh_Cache_Command::class,
-					[
-						':data_store' => $this->injector->make( Data_Store::class ),
-					]
-				)
-				->make( Refresh_Cache_Command::class )->hooks();
+			$refresh_cache_command = new Refresh_Cache_Command( $this->data_store );
+
+			$refresh_cache_command->hooks();
 		}
 	}
 }
