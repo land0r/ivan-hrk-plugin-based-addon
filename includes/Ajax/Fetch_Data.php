@@ -152,10 +152,10 @@ class Fetch_Data {
 	 * @return void
 	 */
 	private function send_response( array $storage_data ): void {
-		if ( ! empty( $storage_data['data']['headers'] ) && ! empty( $storage_data['data']['rows'] ) ) {
-			wp_send_json_success( $storage_data );
-		} else {
+		if ( empty( $storage_data['data']['headers'] ) && empty( $storage_data['data']['rows'] ) ) {
 			wp_send_json_error( [ 'message' => __( 'No data available.', 'ivan-hrk-api-based-addon' ) ] );
 		}
+
+		wp_send_json_success( $storage_data );
 	}
 }

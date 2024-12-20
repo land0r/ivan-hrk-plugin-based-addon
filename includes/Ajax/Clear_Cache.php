@@ -60,7 +60,6 @@ class Clear_Cache {
 		// Check user capability.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( [ 'message' => __( 'Unauthorized access.', 'ivan-hrk-api-based-addon' ) ], 403 );
-			return;
 		}
 
 		// Clear the cache using the Data Store.
