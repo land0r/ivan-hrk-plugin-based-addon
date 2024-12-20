@@ -1,7 +1,4 @@
 {
-	"require": {
-		"rdlowrey/auryn": "^1.4"
-	},
 	"repositories": {
 		"repo-name": {
 			"type": "vcs",

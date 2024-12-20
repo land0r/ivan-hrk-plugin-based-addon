@@ -10,112 +10,91 @@
 
 namespace Ivan_Api_Based;
 
-use Exception;
-use Auryn\Injector;
 use Ivan_Api_Based\Admin\Admin_Page;
 use Ivan_Api_Based\Ajax\Clear_Cache;
 use Ivan_Api_Based\Ajax\Fetch_Data;
 use Ivan_Api_Based\CLI\Refresh_Cache_Command;
 use Ivan_Api_Based\Gutenberg\Table_Block;
+use Ivan_Api_Based\Services\Api_Client;
 use Ivan_Api_Based\Services\Data_Store;
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Plugin.
  *
  * @since 1.0.0
- *
- * @package Ivan_Api_Based
  */
-class Plugin {
+final class Plugin {
 
 	/**
-	 * Dependency Injection Container.
+	 * Instance of this object.
 	 *
-	 * @since 1.0.0
+	 * @since 1.2.0
 	 *
-	 * @var Injector
+	 * @var Plugin $instance Singleton.
 	 */
-	private $injector;
+	private static $instance;
 
 	/**
-	 * Plugin Constructor.
+	 * Get the current instance.
 	 *
-	 * @since 1.0.0
+	 * @since 1.2.0
 	 *
-	 * @param Injector $injector Object.
+	 * @return Plugin Current object instance.
 	 */
-	public function __construct( Injector $injector ) {
-		$this->injector = $injector;
+	public static function get_instance(): Plugin {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**
-	 * Run plugin.
+	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @throws Exception Object doesn't exist.
 	 */
-	public function run(): void {
-		$this->injector->share( Data_Store::class );
+	private function __construct() {
+		$this->loader();
+	}
 
-		$this->injector->make( Table_Block::class )->hooks();
+	/**
+	 * Load all required classes.
+	 *
+	 * @since 1.2.0
+	 */
+	private function loader(): void {
+		// Initialize shared services.
+		$data_store = new Data_Store( new Api_Client() );
 
-		$this->injector
-			/**
-			 * Define dependency for Admin_Page.
-			 *
-			 * @since 1.0.0
-			 */
-			->define(
-				Admin_Page::class,
-				[
-					':data_store' => $this->injector->make( Data_Store::class ),
-				]
-			)
-			->make( Admin_Page::class )->hooks();
+		// Load Gutenberg block functionality.
+		$table_block = new Table_Block();
 
-		$this->injector
-			/**
-			 * Define dependency for Fetch_Data.
-			 *
-			 * @since 1.0.0
-			 */
-			->define(
-				Fetch_Data::class,
-				[
-					':data_store' => $this->injector->make( Data_Store::class ),
-				]
-			)
-			->make( Fetch_Data::class )->hooks();
+		$table_block->hooks();
 
-		$this->injector
-			/**
-			 * Define dependency for Clear_Cache.
-			 *
-			 * @since 1.0.0
-			 */
-			->define(
-				Clear_Cache::class,
-				[
-					':data_store' => $this->injector->make( Data_Store::class ),
-				]
-			)
-			->make( Clear_Cache::class )->hooks();
+		// Load AJAX functionality.
+		$fetch_data = new Fetch_Data( $data_store );
 
+		$fetch_data->hooks();
+
+		$clear_cache = new Clear_Cache( $data_store );
+
+		$clear_cache->hooks();
+
+		// Load WP CLI functionality if available.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			$this->injector
-				/**
-				 * Define dependency for Refresh_Cache_Command.
-				 *
-				 * @since 1.0.0
-				 */
-				->define(
-					Refresh_Cache_Command::class,
-					[
-						':data_store' => $this->injector->make( Data_Store::class ),
-					]
-				)
-				->make( Refresh_Cache_Command::class )->hooks();
+			$refresh_cache_command = new Refresh_Cache_Command( $data_store );
+
+			$refresh_cache_command->hooks();
+		}
+
+		if ( is_admin() ) {
+			// Load Admin Page.
+			$admin_page = new Admin_Page( $data_store );
+
+			$admin_page->hooks();
 		}
 	}
 }
